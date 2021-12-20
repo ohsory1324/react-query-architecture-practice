@@ -1,61 +1,36 @@
 {
   "posts": [
     {
-      "title": "Title 0.8388208948145086",
+      "title": "Title 0.8528266761162078",
       "author": "typicode",
       "id": 1
     },
     {
-      "title": "Title 0.5568276516475892",
+      "title": "Title 0.8376868110881304",
       "author": "typicode",
       "id": 2
     },
     {
-      "title": "Title 0.17963439875603293",
+      "title": "Title 0.3958169712936497",
       "author": "typicode",
       "id": 3
-    },
-    {
-      "title": "Title 0.8756511271411207",
-      "author": "typicode",
-      "id": 4
     }
   ],
   "comments": [
     {
-      "body": "Body 0.2681328406486747",
+      "body": "Body 0.03308507584549658",
       "postId": 1,
       "id": 1
     },
     {
-      "body": "Body 0.47718456100835516",
+      "body": "Body 0.5567266417507863",
       "postId": 3,
       "id": 3
     },
     {
-      "body": "Body 0.7755100563152784",
+      "body": "Body 0.3261750733525137",
       "postId": 3,
       "id": 4
-    },
-    {
-      "body": "Body 0.6851554009064211",
-      "postId": 2,
-      "id": 5
-    },
-    {
-      "body": "Body 0.5597741485924284",
-      "postId": 2,
-      "id": 6
-    },
-    {
-      "body": "Body 0.5073975809902818",
-      "postId": 2,
-      "id": 7
-    },
-    {
-      "body": "Body 0.5079417104857127",
-      "postId": 1,
-      "id": 9
     }
   ]
 }

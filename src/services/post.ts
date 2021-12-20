@@ -1,24 +1,25 @@
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+
 import Api from './api';
-import Post, { IPost } from '../models/post';
-import PostRepository from '../repositories/post';
+import queryKeys from './queryKeys';
 
-export default class PostService {
-  static async createPost(post: Omit<IPost, 'id'>): Promise<Post> {
-    const newPost = await Api.post.createPost(post);    
-    PostRepository.add(newPost);
+export default function usePostService() {
+  const queryClient = useQueryClient();
 
-    return newPost;
-  }
+  const { data: posts, isLoading } = useQuery(queryKeys.post.retrieveAll(), Api.post.fetchPosts);
 
-  static async fetchPosts() {
-    const posts = await Api.post.fetchPosts();
-    PostRepository.replaceAll(posts);
+  const { mutate: createPost } = useMutation(Api.post.createPost, {
+    onSuccess: () => queryClient.invalidateQueries(queryKeys.post.retrieveAll()),
+  });
 
-    return posts;
-  }
+  const { mutate: deletePost } = useMutation(Api.post.deletePost, {
+    onSuccess: () => queryClient.invalidateQueries(queryKeys.post.retrieveAll()),
+  });
 
-  static async deletePost(id: number) {
-    await Api.post.deletePost(id);
-    PostRepository.remove(id);
-  }
+  return {
+    isLoading,
+    posts,
+    createPost,
+    deletePost,
+  };
 }

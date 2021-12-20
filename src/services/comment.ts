@@ -1,24 +1,35 @@
-import Comment, { IComment } from '../models/comment';
-import CommentRepository from '../repositories/comment';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+
 import Api from './api';
+import queryClient from '../query';
+import queryKeys from './queryKeys';
+import Comment from '../models/comment';
 
-export default class CommentService {
-  static async createComment(comment: Omit<IComment, 'id'>): Promise<Comment> {
-    const newComment = await Api.comment.createComment(comment);
-    CommentRepository.add(newComment);
-
-    return newComment;
+export function retrieveCommentsByPostId(postId: number) {
+  const comments = queryClient.getQueryData<Comment[]>(queryKeys.comment.retrieveAll());
+  if (comments) {
+    return comments.filter((comment) => comment.postId === postId);
   }
-
-  static async fetchComments() {
-    const comments = await Api.comment.fetchComments();
-    CommentRepository.replaceAll(comments);
-
-    return comments;
-  }
-
-  static async deleteComment(id: number) {
-    await Api.comment.deleteComment(id);
-    CommentRepository.remove(id);
-  }
+  return [];
 }
+
+export default function useCommentService() {
+  const queryClient = useQueryClient();
+
+  const { data: comments, isLoading } = useQuery(queryKeys.comment.retrieveAll(), Api.comment.fetchComments);
+
+  const { mutate: createComment } = useMutation(Api.comment.createComment, {
+    onSuccess: () => queryClient.invalidateQueries(queryKeys.comment.retrieveAll()),
+  });
+
+  const { mutate: deleteComment } = useMutation(Api.comment.deleteComment, {
+    onSuccess: () => queryClient.invalidateQueries(queryKeys.comment.retrieveAll()),
+  });
+
+  return {
+    isLoading,
+    comments,
+    createComment,
+    deleteComment
+  };
+};

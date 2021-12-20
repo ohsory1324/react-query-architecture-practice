@@ -17,7 +17,7 @@ export default class Api {
       return Post.fromJson(data);
     },
     async deletePost(id: number) {
-      await axios.delete(`/posts/${id}`);
+      await instance.delete(`/posts/${id}`);
     },
   };
 

@@ -1,5 +1,4 @@
-import CommentRepository from '../repositories/comment';
-import Comment from './comment';
+import { retrieveCommentsByPostId } from '../services/comment';
 import { JsonObj } from './utils';
 
 export interface IPost {
@@ -27,7 +26,7 @@ export default class Post implements IPost {
     }
   }
 
-  get comments(): Comment[] {
-    return CommentRepository.getCommentsByPostId(this.id);
+  get comments() {
+    return retrieveCommentsByPostId(this.id);
   }
 }
